@@ -1,2 +1,2 @@
-export * from './INewsDataList';
+export * from './INewsDataArticle';
 export * from './IResponseNewsData';

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, Interval } from '@nestjs/schedule';
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import { INewsDataList, IResponseNewsData } from 'src/types';
+
+import { IResponseNewsData } from 'src/types';
+import { NewsDataLang, NewsDataRoute } from 'src/utils/consts';
 
 @Injectable()
 export class ArticleParserService {
@@ -9,21 +10,23 @@ export class ArticleParserService {
 
   constructor() {
     this.axiosClient = this.createAxiosClient();
-    // this.fetchArticles<INewsDataList>();
   }
 
-  @Interval(10000)
-  parseArticle() {
-    this.fetchArticles<INewsDataList>();
-  }
+  // @Interval(10000)
+  // parseArticle() {
+  //   this.fetchArticles<INewsDataArticle>();
+  // }
 
   async fetchArticles<T>(): Promise<IResponseNewsData<T>> {
-    const { data } = await this.axiosClient.get<IResponseNewsData<T>>('/news', {
-      params: {
-        apikey: 'pub_404100d3a7c802dc95e02e3221e8e5c1e4dce',
-        language: 'en',
+    const { data } = await this.axiosClient.get<IResponseNewsData<T>>(
+      NewsDataRoute.NEWS,
+      {
+        params: {
+          apikey: process.env.NEWS_DATA_API_KEY,
+          language: NewsDataLang.EN,
+        },
       },
-    });
+    );
 
     console.log(data);
 

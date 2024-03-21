@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ArticleParserModule } from './modules/article-parser/article-parser.module';
+import { ArticleModule } from './modules/article/article.module';
+import { Article } from './modules/article/entities/article.entity';
 
 @Module({
   imports: [
@@ -15,10 +18,11 @@ import { ArticleParserModule } from './modules/article-parser/article-parser.mod
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASS,
       database: process.env.POSTGRES_NAME,
-      entities: [],
+      entities: [Article],
       synchronize: true,
     }),
     ArticleParserModule,
+    ArticleModule,
   ],
   controllers: [],
   providers: [],

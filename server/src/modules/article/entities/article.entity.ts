@@ -28,7 +28,7 @@ export class Article {
     example:
       '1 of 6 former officers in Mississippi gets 40 years for racist torture of 2 Black men',
   })
-  @Column({ length: 100 })
+  @Column({ nullable: true, length: 300 })
   title: string;
 
   @ApiProperty({
@@ -43,7 +43,7 @@ export class Article {
     description: 'Article description',
     example: 'Article tells about something',
   })
-  @Column({ length: 500 })
+  @Column({ nullable: true, length: 5000 })
   description: string;
 
   @ApiProperty({

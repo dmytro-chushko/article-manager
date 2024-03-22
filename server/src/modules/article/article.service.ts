@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -20,11 +16,13 @@ export class ArticleService {
     private readonly fileService: FilesService,
   ) {}
 
-  async createByParser(createArticleDto: CreateArticleDto): Promise<Article> {
-    const { article_id } = createArticleDto;
-    if (article_id && this.findOneByArticleId(article_id)) {
-      throw new ConflictException(ExceptionMessage.ALREADY_EXIST);
-    }
+  async createByParser(
+    createArticleDto: CreateArticleDto,
+  ): Promise<Article | void> {
+    const { article_id, title } = createArticleDto;
+    if (article_id && (await this.findOneByArticleId(article_id))) return;
+
+    if (await this.findOneByTitle(title)) return;
 
     const newArticle = this.articleRepository.create(createArticleDto);
 
@@ -63,6 +61,10 @@ export class ArticleService {
 
   async findOneByArticleId(article_id: string): Promise<Article | null> {
     return await this.articleRepository.findOneBy({ article_id });
+  }
+
+  async findOneByTitle(title: string): Promise<Article | null> {
+    return await this.articleRepository.findOneBy({ title });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {

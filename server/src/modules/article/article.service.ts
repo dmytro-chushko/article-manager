@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ExceptionMessage } from 'src/utils/consts/ExceptionMessage';
+import { FilesService } from '../files/files.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
@@ -16,15 +17,38 @@ export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
+    private readonly fileService: FilesService,
   ) {}
 
-  async create(createArticleDto: CreateArticleDto): Promise<Article> {
+  async createByParser(createArticleDto: CreateArticleDto): Promise<Article> {
     const { article_id } = createArticleDto;
     if (article_id && this.findOneByArticleId(article_id)) {
       throw new ConflictException(ExceptionMessage.ALREADY_EXIST);
     }
 
     const newArticle = this.articleRepository.create(createArticleDto);
+
+    return await this.articleRepository.save(newArticle);
+  }
+
+  async createByAdmin(
+    createArticleDto: CreateArticleDto,
+    image: Express.Multer.File,
+  ): Promise<Article> {
+    const newArticle = this.articleRepository.create(createArticleDto);
+
+    if (image) {
+      const savedArticle = await this.articleRepository.save(newArticle);
+      const imagePath = await this.fileService.createFile(
+        image,
+        savedArticle.id,
+      );
+
+      return await this.articleRepository.save({
+        ...savedArticle,
+        image_url: imagePath,
+      });
+    }
 
     return await this.articleRepository.save(newArticle);
   }

@@ -1,0 +1,34 @@
+{
+  "validation": {
+    "maxChar": "not more then {{num}} characters",
+    "required": "it should be filled",
+    "requiredIsChecked": "Must be checked",
+    "requiredLength": "it must contains {{num}} characters",
+    "boardNotExist": "board not found",
+    "labelExist": "This label already exist"
+  },
+  "notification": {
+    "rejected": "Something went wrong",
+    "deleting": "Your {{entity}} successfully deleted"
+  },
+  "placeholder": {
+    "textLabelInput": "Input new name",
+    "searchInput": "Input task name",
+    "colorSelect": "Color label",
+    "textSelect": "Text label"
+  },
+  "label": {
+    "name": "Name",
+    "isChecked": "Do you agree with terms?",
+    "gender": "Gender",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "genderOther": "Other"
+  },
+  "button": {
+    "add": "Add"
+  },
+  "employees": "Employees",
+  "employee": "Employee",
+  "footer": "Footer"
+}

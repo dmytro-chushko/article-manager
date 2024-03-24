@@ -1,3 +1,3 @@
 export const enum QueryRoute {
-  ARTCILE = 'article',
+  ARTCILE = '/article',
 }

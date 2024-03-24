@@ -2,16 +2,15 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // import { Header } from '..';
-
 import { useTranslation } from 'react-i18next';
-import { Container } from '@mui/material';
 import { Loader } from 'src/components/Loader';
+import { BpContainer } from './Body.styled';
 
 export const Body = () => {
   const { t } = useTranslation();
 
   return (
-    <Container maxWidth="sm">
+    <BpContainer>
       <header>{/* <Header /> */}</header>
       <main>
         <Suspense fallback={<Loader open />}>
@@ -19,6 +18,6 @@ export const Body = () => {
         </Suspense>
       </main>
       <footer>{t('footer')}</footer>
-    </Container>
+    </BpContainer>
   );
 };

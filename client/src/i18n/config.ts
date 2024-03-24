@@ -11,6 +11,7 @@ i18next
   .use(Backend)
   .use(LanguageDetector)
   .init({
+    lng: 'en',
     resources: {
       en: {
         translation: english,

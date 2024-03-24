@@ -1,6 +1,6 @@
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import { IPayloadError } from 'src/types';
+
+import { IPayloadError } from 'src/types/error';
 
 export const errorHandler: Middleware = () => next => action => {
   if (isRejectedWithValue(action)) {
@@ -14,11 +14,11 @@ export const errorHandler: Middleware = () => next => action => {
       typeof action.payload.data === 'object' &&
       'message' in action.payload.data
     ) {
-      toast.error((action.payload.data as { message: string }).message);
+      console.log((action.payload.data as { message: string }).message);
     }
 
     if (action.error.message === 'Rejected') {
-      toast.error('Something went wrong');
+      console.log('Something went wrong');
       console.log(
         (action.payload as { status: number; data: IPayloadError }).data
           .message,

@@ -30,5 +30,8 @@
   },
   "employees": "Employees",
   "employee": "Employee",
-  "footer": "Footer"
+  "footer": "Footer",
+  "link": {
+    "goToArticle": "Go to article"
+  }
 }

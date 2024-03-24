@@ -1,5 +1,14 @@
+import { ArticleList } from 'src/modules/ArticleList';
+import { ReadOnlyArticle } from 'src/modules/ReadOnlyArticle';
+
 const Feed = () => {
-  return <div>Feed</div>;
+  return (
+    <>
+      <ArticleList>
+        <ReadOnlyArticle />
+      </ArticleList>
+    </>
+  );
 };
 
 export default Feed;

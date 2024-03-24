@@ -4,17 +4,25 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 
 import { INewsDataArticle, IResponseNewsData } from 'src/types';
 import { NewsDataLang, NewsDataRoute } from 'src/utils/consts';
+import { ArticleEvent } from 'src/utils/consts/ArticleEvent';
 import { ArticleService } from '../article/article.service';
+import { ArticleParserGateway } from './article-parser.gateway';
+// import { HttpAdapterHost } from '@nestjs/core';
+// import { app } from 'src/main';
 
 @Injectable()
 export class ArticleParserService {
   axiosClient: AxiosInstance;
 
-  constructor(private readonly articleService: ArticleService) {
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly articleParserGateway: ArticleParserGateway,
+  ) {
     this.axiosClient = this.createAxiosClient();
+    // console.log(app.get(HttpAdapterHost).httpAdapter.getInstance().address());
   }
 
-  @Interval(120000)
+  @Interval(60000)
   async parseArticle() {
     const articles = await this.fetchArticles<INewsDataArticle>();
     const parsedArticles = await Promise.all(
@@ -30,6 +38,10 @@ export class ArticleParserService {
           }),
       ),
     );
+
+    if (parsedArticles.some(article => article)) {
+      this.articleParserGateway.server.emit(ArticleEvent.ARTICLE_UPDATED);
+    }
 
     console.log(parsedArticles);
   }

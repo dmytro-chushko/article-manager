@@ -4,11 +4,16 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './exception/all.exception';
 import { CustomValidationPipe } from './pipe/custom-validation.pipe';
+import { INestApplication } from '@nestjs/common';
+
+export let app: INestApplication;
 
 async function bootstrap() {
   const PORT = process.env.PORT || 8090;
   const app = await NestFactory.create(AppModule, { cors: true });
+
   const { httpAdapter } = app.get(HttpAdapterHost);
+
   const config = new DocumentBuilder()
     .setTitle('Article Manager API')
     .setDescription('REST API documentation')

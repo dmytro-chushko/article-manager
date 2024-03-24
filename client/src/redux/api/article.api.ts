@@ -18,7 +18,7 @@ export const articleApi = createApi({
       query: () => ({ url: '' }),
       providesTags: ['Article'],
     }),
-    createTextLabel: builder.mutation<IArticleRetrived, ICreateArticle>({
+    createArticle: builder.mutation<IArticleRetrived, ICreateArticle>({
       query: body => ({
         url: '',
         method: 'POST',
@@ -26,7 +26,7 @@ export const articleApi = createApi({
       }),
       invalidatesTags: ['Article'],
     }),
-    updateTextLabel: builder.mutation<IArticleRetrived, IUpdateArticle>({
+    updateArticle: builder.mutation<IArticleRetrived, IUpdateArticle>({
       query: ({ id, ...body }) => ({
         url: id,
         method: 'PATCH',
@@ -34,7 +34,7 @@ export const articleApi = createApi({
       }),
       invalidatesTags: ['Article'],
     }),
-    removeTextLabel: builder.mutation<IArticleRetrived, string>({
+    removeArticle: builder.mutation<IArticleRetrived, string>({
       query: id => ({
         url: id,
         method: 'DELETE',
@@ -46,7 +46,7 @@ export const articleApi = createApi({
 
 export const {
   useGetAllArticlesQuery,
-  useCreateTextLabelMutation,
-  useUpdateTextLabelMutation,
-  useRemoveTextLabelMutation,
+  useCreateArticleMutation,
+  useUpdateArticleMutation,
+  useRemoveArticleMutation,
 } = articleApi;

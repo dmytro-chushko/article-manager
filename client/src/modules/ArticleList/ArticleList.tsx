@@ -4,6 +4,8 @@ import { useGetAllArticlesQuery } from 'src/redux/api/article.api';
 import { useSetLoaderStatus } from 'src/redux/reducers/loader';
 
 import { IArticleRetrived } from 'src/types/api';
+import { ArticleEvent } from 'src/utils/consts';
+import { socket } from 'src/web-socket/socket';
 
 interface IArticleListProps {
   children: ReactElement[] | ReactElement;
@@ -11,7 +13,7 @@ interface IArticleListProps {
 
 export const ArticleList = ({ children }: IArticleListProps) => {
   const setLoaderStatus = useSetLoaderStatus();
-  const { data: articles, isLoading } = useGetAllArticlesQuery();
+  const { data: articles, isLoading, refetch } = useGetAllArticlesQuery();
 
   const renderChildren = (article: IArticleRetrived) => {
     return Children.map(children, child => {
@@ -24,6 +26,16 @@ export const ArticleList = ({ children }: IArticleListProps) => {
   useEffect(() => {
     setLoaderStatus(isLoading);
   }, [isLoading, setLoaderStatus]);
+
+  useEffect(() => {
+    const handleRefetchArticle = () => refetch();
+
+    socket.on(ArticleEvent.ARTICLE_UPDATED, handleRefetchArticle);
+
+    return () => {
+      socket.off(ArticleEvent.ARTICLE_UPDATED, handleRefetchArticle);
+    };
+  }, [refetch]);
 
   return (
     <Grid component="ul" container spacing={4} py={4}>

@@ -19,10 +19,7 @@ export const errorHandler: Middleware = () => next => action => {
 
     if (action.error.message === 'Rejected') {
       console.log('Something went wrong');
-      console.log(
-        (action.payload as { status: number; data: IPayloadError }).data
-          .message,
-      );
+      console.log(action.payload as { status: number; data: IPayloadError });
     }
   }
 

@@ -1,9 +1,9 @@
 import {
   ConflictException,
   Injectable,
-  Res,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { Response } from 'express';
 
@@ -22,11 +22,12 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async registration(
     dto: CreateUserDto,
-    @Res({ passthrough: true }) response: Response,
+    response: Response,
   ): Promise<IUserResponse> {
     const candidate = await this.userService.findOneByEmail(dto.email);
     if (candidate) {
@@ -46,10 +47,7 @@ export class AuthService {
     return { id: newUser.id, email: newUser.email };
   }
 
-  async login(
-    dto: CreateUserDto,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<IUserResponse> {
+  async login(dto: CreateUserDto, response: Response): Promise<IUserResponse> {
     const user = await this.validateUser(dto);
 
     response.cookie(COOKIE_KEY, this.generateToken(user), {
@@ -73,7 +71,7 @@ export class AuthService {
     return user;
   }
 
-  private async generateToken(user: User): Promise<string> {
+  private generateToken(user: User): string {
     return this.jwtService.sign({ id: user.id, email: user.email });
   }
 }

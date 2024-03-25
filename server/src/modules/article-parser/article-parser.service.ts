@@ -22,7 +22,7 @@ export class ArticleParserService {
     // console.log(app.get(HttpAdapterHost).httpAdapter.getInstance().address());
   }
 
-  @Interval(60000)
+  // @Interval(60000)
   async parseArticle() {
     const articles = await this.fetchArticles<INewsDataArticle>();
     const parsedArticles = await Promise.all(

@@ -10,6 +10,7 @@ import { FilesModule } from './modules/files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { User } from './modules/user/entities/user.entity';
     ArticleModule,
     FilesModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

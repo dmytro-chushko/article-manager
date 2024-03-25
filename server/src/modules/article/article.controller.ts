@@ -15,7 +15,7 @@ import {
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ArticleRoute } from 'src/utils/consts';
+import { ArticleRoute } from 'src/utils/consts/route';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';

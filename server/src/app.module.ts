@@ -8,6 +8,8 @@ import { ArticleModule } from './modules/article/article.module';
 import { Article } from './modules/article/entities/article.entity';
 import { FilesModule } from './modules/files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { UserModule } from './modules/user/user.module';
+import { User } from './modules/user/entities/user.entity';
 
 @Module({
   imports: [
@@ -24,12 +26,13 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASS,
       database: process.env.POSTGRES_NAME,
-      entities: [Article],
+      entities: [Article, User],
       synchronize: true,
     }),
     ArticleParserModule,
     ArticleModule,
     FilesModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

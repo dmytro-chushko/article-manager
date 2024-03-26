@@ -38,7 +38,7 @@ export const ArticleList = ({ children }: IArticleListProps) => {
   }, [refetch]);
 
   return (
-    <Grid component="ul" container spacing={4} py={4}>
+    <Grid component="ul" container rowSpacing={2}>
       {articles &&
         articles.map(article => (
           <Grid key={article.id} component="li" item>

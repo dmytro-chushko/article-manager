@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-// import { Header } from '..';
 import { useTranslation } from 'react-i18next';
 import { Loader } from 'src/components/Loader';
+import { Header } from '..';
 import { BpContainer } from './Body.styled';
 
 export const Body = () => {
@@ -11,7 +11,9 @@ export const Body = () => {
 
   return (
     <BpContainer>
-      <header>{/* <Header /> */}</header>
+      <header>
+        <Header />
+      </header>
       <main>
         <Suspense fallback={<Loader open />}>
           <Outlet />

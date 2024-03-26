@@ -6,6 +6,7 @@ import { AppRoute } from 'src/utils/consts';
 
 const Admin = lazy(() => import('src/pages/Admin'));
 const Feed = lazy(() => import('src/pages/Feed'));
+const SignIn = lazy(() => import('src/pages/SignIn'));
 const PageNotFound = lazy(() => import('src/pages/PageNotFound'));
 
 export const MainRouter = () => {
@@ -14,6 +15,7 @@ export const MainRouter = () => {
       <Routes>
         <Route path={AppRoute.FEED} element={<Body />}>
           <Route index element={<Feed />} />
+          <Route path={AppRoute.SIGN_IN} element={<SignIn />} />
           <Route path={AppRoute.ADMIN} element={<Admin />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>

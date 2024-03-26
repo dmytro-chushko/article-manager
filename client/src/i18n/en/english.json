@@ -1,10 +1,11 @@
 {
   "validation": {
-    "maxChar": "not more then {{num}} characters",
-    "required": "it should be filled",
+    "maxChar": "Not more then {{num}} characters",
+    "required": "It should be filled",
     "requiredIsChecked": "Must be checked",
-    "requiredLength": "it must contains {{num}} characters",
-    "boardNotExist": "board not found",
+    "requiredLength": "It must contains {{num}} characters",
+    "boardNotExist": "Board not found",
+    "incorrectEmail": "Incorrect type of email",
     "labelExist": "This label already exist"
   },
   "notification": {
@@ -18,7 +19,8 @@
     "textSelect": "Text label"
   },
   "label": {
-    "name": "Name",
+    "email": "Email",
+    "password": "Password",
     "isChecked": "Do you agree with terms?",
     "gender": "Gender",
     "genderMale": "Male",
@@ -26,12 +28,15 @@
     "genderOther": "Other"
   },
   "button": {
-    "add": "Add"
+    "add": "Add",
+    "signIn": "Sign In",
+    "goBack": "Go back"
   },
   "employees": "Employees",
   "employee": "Employee",
   "footer": "Footer",
   "link": {
-    "goToArticle": "Go to article"
+    "goToArticle": "Go to article",
+    "signIn": "Sign In"
   }
 }

@@ -30,7 +30,8 @@
   "button": {
     "add": "Add",
     "signIn": "Sign In",
-    "goBack": "Go back"
+    "goBack": "Go back",
+    "logOut": "Log out"
   },
   "employees": "Employees",
   "employee": "Employee",

@@ -1,21 +1,37 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { yupResolver } from '@hookform/resolvers/yup';
 
+import { useEffect } from 'react';
 import { CustomInput } from 'src/components';
+import { useLoginAdminMutation } from 'src/redux/api';
+import { useSetLoaderStatus } from 'src/redux/reducers/loader';
 import { ISignInForm } from 'src/types/form';
-import { signInFormSchema } from 'src/utils/consts/validation';
+import { signInFormSchema } from 'src/utils/validation';
 
 export const SignInForm = () => {
   const { t } = useTranslation();
+  const setLoaderStatus = useSetLoaderStatus();
+  const [loginAdmin, { isLoading, isSuccess }] = useLoginAdminMutation();
   const schema = signInFormSchema();
   const { control, handleSubmit } = useForm<ISignInForm>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: ISignInForm) => console.log(data);
+  const onSubmit = async (data: ISignInForm) => {
+    console.log(data);
+    await loginAdmin(data);
+  };
+
+  useEffect(() => {
+    isSuccess && localStorage.setItem('loggedIn', 'true');
+  }, [isSuccess]);
+
+  useEffect(() => {
+    setLoaderStatus(isLoading);
+  }, [isLoading, setLoaderStatus]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

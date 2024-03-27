@@ -9,10 +9,12 @@ import { useLoginAdminMutation } from 'src/redux/api';
 import { useSetLoaderStatus } from 'src/redux/reducers/loader';
 import { ISignInForm } from 'src/types/form';
 import { signInFormSchema } from 'src/utils/validation';
+import { useSetIsLogged } from 'src/redux/reducers/isLogged';
 
 export const SignInForm = () => {
   const { t } = useTranslation();
   const setLoaderStatus = useSetLoaderStatus();
+  const setIsLogged = useSetIsLogged();
   const [loginAdmin, { isLoading, isSuccess }] = useLoginAdminMutation();
   const schema = signInFormSchema();
   const { control, handleSubmit } = useForm<ISignInForm>({
@@ -26,8 +28,8 @@ export const SignInForm = () => {
   };
 
   useEffect(() => {
-    isSuccess && localStorage.setItem('loggedIn', 'true');
-  }, [isSuccess]);
+    isSuccess && setIsLogged(true);
+  }, [isSuccess, setIsLogged]);
 
   useEffect(() => {
     setLoaderStatus(isLoading);

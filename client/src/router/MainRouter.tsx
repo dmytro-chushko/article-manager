@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Body } from 'src/modules';
 import { AppRoute } from 'src/utils/consts';
+import { PrivateRoute } from './ProtectedRote';
+import { PublicRoute } from './PublicRoute';
 
 const Admin = lazy(() => import('src/pages/Admin'));
 const Feed = lazy(() => import('src/pages/Feed'));
@@ -15,8 +17,12 @@ export const MainRouter = () => {
       <Routes>
         <Route path={AppRoute.FEED} element={<Body />}>
           <Route index element={<Feed />} />
-          <Route path={AppRoute.SIGN_IN} element={<SignIn />} />
-          <Route path={AppRoute.ADMIN} element={<Admin />} />
+          <Route element={<PrivateRoute />}>
+            <Route path={AppRoute.ADMIN} element={<Admin />} />
+          </Route>
+          <Route element={<PublicRoute path={AppRoute.ADMIN} />}>
+            <Route path={AppRoute.SIGN_IN} element={<SignIn />} />
+          </Route>
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

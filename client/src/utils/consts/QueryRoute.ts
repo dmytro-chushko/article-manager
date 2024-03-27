@@ -3,4 +3,5 @@ export const enum QueryRoute {
   AUTH = '/auth',
   LOGIN = '/login',
   REGISTR = '/registration',
+  LOGOUT = '/logout',
 }

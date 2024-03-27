@@ -7,6 +7,7 @@ export const authApi = createApi({
   reducerPath: ReducerPath.AUTH_API,
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL + QueryRoute.AUTH,
+    credentials: 'include',
   }),
   tagTypes: ['Auth'],
   endpoints: builder => ({
@@ -18,7 +19,14 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['Auth'],
     }),
+    logOutAdmin: builder.mutation<void, void>({
+      query: () => ({
+        url: QueryRoute.LOGOUT,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Auth'],
+    }),
   }),
 });
 
-export const { useLoginAdminMutation } = authApi;
+export const { useLoginAdminMutation, useLogOutAdminMutation } = authApi;

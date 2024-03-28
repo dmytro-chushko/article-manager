@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   ClickAwayListener,
   FormControl,
   Grid,
@@ -12,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import noImage from 'src/assets/no_image.webp';
 import { CustomInput } from 'src/components';
 import { IArticleRetrived } from 'src/types/api';
+import { ArticleControls } from '../AddArticle/components/ArticleControls';
 import { useEditableArticleHook } from './EditableArticle.hook';
 
 interface IEditableArticleProps {
@@ -20,12 +20,17 @@ interface IEditableArticleProps {
 
 export const EditableArticle = ({ article }: IEditableArticleProps) => {
   const { t } = useTranslation();
-  const { isEdit, control, handleClickAway, handleClickEdit } =
-    useEditableArticleHook({
-      id: article?.id,
-      title: article?.title,
-      description: article?.description,
-    });
+  const {
+    isEdit,
+    control,
+    handleClickAway,
+    handleClickEdit,
+    handleClickRemove,
+  } = useEditableArticleHook({
+    id: article?.id,
+    title: article?.title,
+    description: article?.description || '',
+  });
 
   if (article) {
     const { title, description, image_url, link, creator } = article;
@@ -76,9 +81,11 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
             </Grid>
           </Grid>
           <Grid item>
-            <Button variant="contained" type="button" onClick={handleClickEdit}>
-              {t(`${isEdit ? 'button.close' : 'button.edit'}`)}
-            </Button>
+            <ArticleControls
+              isEdit={isEdit}
+              onEditArticle={handleClickEdit}
+              onRemoveArticle={handleClickRemove}
+            />
           </Grid>
         </Grid>
       </ClickAwayListener>

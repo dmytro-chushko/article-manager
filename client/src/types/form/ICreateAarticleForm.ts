@@ -1,4 +1,4 @@
-export interface ICreateAarticleForm {
+export interface ICreateArticleForm {
   title: string;
   description: string;
 }

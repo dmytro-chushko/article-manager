@@ -2,33 +2,19 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import PublishIcon from '@mui/icons-material/Publish';
 import { Box, ClickAwayListener, Fab, FormControl, Grid } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 import noImage from 'src/assets/no_image.webp';
 import { CustomInput } from 'src/components';
-import { ICreateAarticleForm } from 'src/types/form';
+import { useAddArticle } from './AddArticle.hook';
 
 export const AddArticle = () => {
-  const [isAddFormShown, setIsAddFormShown] = useState<boolean>(false);
-  const { control, handleSubmit, reset } = useForm<ICreateAarticleForm>({
-    defaultValues: {
-      title: '',
-      description: '',
-    },
-  });
-
-  const handleClickAddButton = () => {
-    setIsAddFormShown(!isAddFormShown);
-    reset();
-  };
-
-  const handleClickAway = () => {
-    setIsAddFormShown(false);
-    reset();
-  };
-
-  const onSubmit = (data: ICreateAarticleForm) => console.log(data);
+  const {
+    isAddFormShown,
+    control,
+    handleSubmitForm,
+    handleClickAddButton,
+    handleClickAway,
+  } = useAddArticle();
 
   return (
     <Grid container direction="column" spacing={2} mb={2}>
@@ -40,7 +26,7 @@ export const AddArticle = () => {
         </Grid>
         {isAddFormShown && (
           <Grid item>
-            <Fab color="primary" type="submit" onClick={handleSubmit(onSubmit)}>
+            <Fab color="primary" type="submit" onClick={handleSubmitForm}>
               <PublishIcon />
             </Fab>
           </Grid>
@@ -56,7 +42,6 @@ export const AddArticle = () => {
               direction="column"
               spacing={2}
               id="add-form"
-              onSubmit={handleSubmit(onSubmit)}
             >
               <Grid item>
                 <FormControl fullWidth>

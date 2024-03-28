@@ -25,7 +25,8 @@ export const ArticleList = ({ children }: IArticleListProps) => {
 
   useEffect(() => {
     setLoaderStatus(isLoading);
-  }, [isLoading, setLoaderStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   useEffect(() => {
     const handleRefetchArticle = () => refetch();

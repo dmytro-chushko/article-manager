@@ -22,11 +22,13 @@ export const AdminAuth = () => {
 
   useEffect(() => {
     isSuccess && setIsLogged(false);
-  }, [isSuccess, setIsLogged]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
   useEffect(() => {
     setLoaderStatus(isLoading);
-  }, [isLoading, setLoaderStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   return (
     <>

@@ -4,6 +4,7 @@ import { MainRouter } from './router/MainRouter';
 
 function App() {
   const isShown = useGetLoaderStatus();
+  console.log(isShown);
 
   return (
     <>

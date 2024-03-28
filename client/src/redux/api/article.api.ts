@@ -11,6 +11,7 @@ export const articleApi = createApi({
   reducerPath: ReducerPath.ARTICLE_API,
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL + QueryRoute.ARTCILE,
+    credentials: 'include',
   }),
   tagTypes: ['Article'],
   endpoints: builder => ({

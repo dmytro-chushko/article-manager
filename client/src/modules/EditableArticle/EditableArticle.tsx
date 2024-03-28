@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import noImage from 'src/assets/no_image.webp';
-import { CustomInput } from 'src/components';
+import { CustomInput, InputImageUpload } from 'src/components';
 import { IArticleRetrived } from 'src/types/api';
 import { ArticleControls } from '../AddArticle/components/ArticleControls';
 import { useEditableArticleHook } from './EditableArticle.hook';
@@ -55,7 +55,9 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                   width={270}
                   alt={title}
                   src={image_url ? image_url : noImage}
+                  mb={isEdit ? 2 : 0}
                 />
+                {isEdit && <InputImageUpload fullWidth />}
               </Grid>
               <Grid item flexGrow={1}>
                 {isEdit ? (

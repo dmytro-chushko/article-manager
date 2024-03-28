@@ -4,7 +4,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import { Box, ClickAwayListener, Fab, FormControl, Grid } from '@mui/material';
 
 import noImage from 'src/assets/no_image.webp';
-import { CustomInput } from 'src/components';
+import { CustomInput, InputImageUpload } from 'src/components';
 import { useAddArticle } from './AddArticle.hook';
 
 export const AddArticle = () => {
@@ -55,7 +55,9 @@ export const AddArticle = () => {
                     width={270}
                     alt="no image"
                     src={noImage}
+                    mb={2}
                   />
+                  <InputImageUpload fullWidth />
                 </Grid>
                 <Grid item flexGrow={1}>
                   <FormControl fullWidth>

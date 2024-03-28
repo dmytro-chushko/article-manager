@@ -52,9 +52,15 @@ export class AuthService {
 
     response.cookie(COOKIE_KEY, this.generateToken(user), {
       httpOnly: true,
+      secure: true,
+      sameSite: 'none',
     });
 
     return { id: user.id, email: user.email };
+  }
+
+  logOut(response: Response): void {
+    response.clearCookie(COOKIE_KEY);
   }
 
   private async validateUser(dto: CreateUserDto): Promise<User> {

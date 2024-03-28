@@ -2,16 +2,16 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
+import { INestApplication } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './exception/all.exception';
 import { CustomValidationPipe } from './pipe/custom-validation.pipe';
-import { INestApplication } from '@nestjs/common';
 
 export let app: INestApplication;
 
 async function bootstrap() {
   const PORT = process.env.PORT || 8090;
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
 
@@ -24,6 +24,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup('/api/docs', app, document);
+  app.enableCors({
+    // allowedHeaders: '*',
+    origin: 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'HEADER', 'PATCH', 'OPTIONS'],
+  });
   app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter({ httpAdapter }));
   app.useGlobalPipes(new CustomValidationPipe());

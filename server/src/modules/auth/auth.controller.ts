@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { AuthRoute } from 'src/utils/consts/route';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './auth-jwt.guard';
 
 @Controller(AuthRoute.DEFAULT)
 export class AuthController {
@@ -25,7 +26,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'User authentication' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Sign in new user',
   })
   @Post(AuthRoute.LOGIN)
@@ -34,5 +35,16 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     return this.authService.login(dto, response);
+  }
+
+  @ApiOperation({ summary: 'User log out' })
+  @ApiResponse({
+    status: 200,
+    description: 'User log out',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post(AuthRoute.LOGOUT)
+  logOut(@Res({ passthrough: true }) response: Response) {
+    return this.authService.logOut(response);
   }
 }

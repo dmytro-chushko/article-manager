@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -20,6 +21,7 @@ import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller(ArticleRoute.DEFAULT)
 export class ArticleController {
@@ -27,6 +29,7 @@ export class ArticleController {
 
   @ApiOperation({ summary: 'Create new article' })
   @ApiResponse({ status: 201, type: Article })
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image-file'))
   create(
@@ -68,6 +71,7 @@ export class ArticleController {
 
   @ApiOperation({ summary: 'Remove article' })
   @ApiResponse({ status: 200, type: Article })
+  @UseGuards(JwtAuthGuard)
   @Delete(ArticleRoute.PARAM_ID)
   remove(@Param('id') id: string) {
     return this.articleService.remove(id);

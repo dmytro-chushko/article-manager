@@ -1,6 +1,7 @@
-import { Link, Typography } from '@mui/material';
+import { Box, Grid, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+import noImage from 'src/assets/no_image.webp';
 import { IArticleRetrived } from 'src/types/api';
 
 interface IReadOnlyArticleProps {
@@ -14,17 +15,33 @@ export const ReadOnlyArticle = ({ article }: IReadOnlyArticleProps) => {
     const { title, description, image_url, link, creator } = article;
 
     return (
-      <>
-        <Typography variant="h6">{title}</Typography>
-        <Typography variant="body2">{description}</Typography>
-        <Link href={link}>{t('link.goToArticle')}</Link>
-        {creator &&
-          creator.map(item => (
-            <Typography key={item} variant="caption"></Typography>
-          ))}
-      </>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <Typography variant="h6">{title}</Typography>
+        </Grid>
+        <Grid container spacing={2} item flexWrap="nowrap">
+          <Grid item xs="auto">
+            <Box
+              component="img"
+              width={270}
+              alt={title}
+              src={image_url ? image_url : noImage}
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="body2">{description}</Typography>
+            {creator &&
+              creator.map(item => (
+                <Typography key={item} variant="caption" mr={2}>
+                  {item}
+                </Typography>
+              ))}
+            <Link href={link}>{t('link.goToArticle')}</Link>
+          </Grid>
+        </Grid>
+      </Grid>
     );
-  }  
+  }
 
   return <div />;
 };

@@ -12,6 +12,12 @@ export const globalStyles = (
       'ul, ol': {
         listStyle: 'none',
       },
+
+      img: {
+        display: 'block',
+        height: 'auto',
+        maxWidth: '100%',
+      },
     })}
   />
 );

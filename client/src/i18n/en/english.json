@@ -31,7 +31,9 @@
     "add": "Add",
     "signIn": "Sign In",
     "goBack": "Go back",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "admin": "Admin",
+    "feed": "Feed"
   },
   "employees": "Employees",
   "employee": "Employee",

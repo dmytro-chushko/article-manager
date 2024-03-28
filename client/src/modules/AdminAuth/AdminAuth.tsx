@@ -1,15 +1,21 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLInk, useLocation } from 'react-router-dom';
 
 import { useLogOutAdminMutation } from 'src/redux/api';
-import { useSetIsLogged } from 'src/redux/reducers/isLogged';
+import {
+  useGetIsLogged,
+  useGetUserEmail,
+  useSetIsLogged,
+} from 'src/redux/reducers/isLogged';
 import { useSetLoaderStatus } from 'src/redux/reducers/loader';
 import { AppRoute } from 'src/utils/consts';
 
 export const AdminAuth = () => {
   const { t } = useTranslation();
+  const isLogged = useGetIsLogged();
+  const userEmail = useGetUserEmail();
   const setLoaderStatus = useSetLoaderStatus();
   const setIsLogged = useSetIsLogged();
   const [logOutAdmin, { isLoading, isSuccess }] = useLogOutAdminMutation();
@@ -21,7 +27,7 @@ export const AdminAuth = () => {
   };
 
   useEffect(() => {
-    isSuccess && setIsLogged(false);
+    isSuccess && setIsLogged({ userEmail: '', isLogged: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
@@ -31,19 +37,30 @@ export const AdminAuth = () => {
   }, [isLoading]);
 
   return (
-    <>
+    <Grid container spacing={2} alignItems="center">
+      {isLogged && (
+        <Grid item>
+          <Typography variant="subtitle2" color="primary">
+            {userEmail}
+          </Typography>
+        </Grid>
+      )}
       {!currentLocation && (
-        <Button variant="text" component={RouterLInk} to={AppRoute.ADMIN}>
-          {t('button.admin')}
-        </Button>
+        <Grid item>
+          <Button variant="text" component={RouterLInk} to={AppRoute.ADMIN}>
+            {t('button.admin')}
+          </Button>
+        </Grid>
       )}
       {currentLocation === AppRoute.SIGN_IN && (
-        <Button variant="text" component={RouterLInk} to={AppRoute.FEED}>
-          {t('button.feed')}
-        </Button>
+        <Grid item>
+          <Button variant="text" component={RouterLInk} to={AppRoute.FEED}>
+            {t('button.feed')}
+          </Button>
+        </Grid>
       )}
       {currentLocation === AppRoute.ADMIN && (
-        <Grid container spacing={2}>
+        <>
           <Grid item>
             <Button variant="text" component={RouterLInk} to={AppRoute.FEED}>
               {t('button.feed')}
@@ -54,8 +71,8 @@ export const AdminAuth = () => {
               {t('button.logOut')}
             </Button>
           </Grid>
-        </Grid>
+        </>
       )}
-    </>
+    </Grid>
   );
 };

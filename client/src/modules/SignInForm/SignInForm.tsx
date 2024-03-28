@@ -15,7 +15,7 @@ export const SignInForm = () => {
   const { t } = useTranslation();
   const setLoaderStatus = useSetLoaderStatus();
   const setIsLogged = useSetIsLogged();
-  const [loginAdmin, { isLoading, isSuccess }] = useLoginAdminMutation();
+  const [loginAdmin, { isLoading }] = useLoginAdminMutation();
   const schema = signInFormSchema();
   const { control, handleSubmit } = useForm<ISignInForm>({
     defaultValues: { email: '', password: '' },
@@ -23,17 +23,15 @@ export const SignInForm = () => {
   });
 
   const onSubmit = async (data: ISignInForm) => {
-    console.log(data);
-    await loginAdmin(data);
+    const userData = await loginAdmin(data);
+    'data' in userData &&
+      setIsLogged({ userEmail: userData.data.email, isLogged: true });
   };
 
   useEffect(() => {
-    isSuccess && setIsLogged(true);
-  }, [isSuccess, setIsLogged]);
-
-  useEffect(() => {
     setLoaderStatus(isLoading);
-  }, [isLoading, setLoaderStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

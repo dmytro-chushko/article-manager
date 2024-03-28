@@ -33,7 +33,8 @@
     "goBack": "Go back",
     "logOut": "Log out",
     "admin": "Admin",
-    "feed": "Feed"
+    "feed": "Feed",
+    "edit": "Edit"
   },
   "employees": "Employees",
   "employee": "Employee",

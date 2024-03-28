@@ -41,7 +41,7 @@ export const ArticleList = ({ children }: IArticleListProps) => {
     <Grid component="ul" container rowSpacing={2}>
       {articles &&
         articles.map(article => (
-          <Grid key={article.id} component="li" item>
+          <Grid key={article.id} component="li" item xs={12}>
             {renderChildren(article)}
           </Grid>
         ))}

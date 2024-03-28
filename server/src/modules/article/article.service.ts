@@ -67,8 +67,13 @@ export class ArticleService {
     return await this.articleRepository.findOneBy({ title });
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  async update(id: string, updateArticleDto: UpdateArticleDto) {
+    const article = await this.checkExistingAndReturn(id);
+
+    return await this.articleRepository.save({
+      ...article,
+      ...updateArticleDto,
+    });
   }
 
   async remove(id: string): Promise<Article> {

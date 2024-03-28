@@ -17,11 +17,11 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ArticleRoute } from 'src/utils/consts/route';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
-import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller(ArticleRoute.DEFAULT)
 export class ArticleController {
@@ -66,7 +66,7 @@ export class ArticleController {
   @ApiResponse({ status: 200, type: Article })
   @Patch(ArticleRoute.PARAM_ID)
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articleService.update(+id, updateArticleDto);
+    return this.articleService.update(id, updateArticleDto);
   }
 
   @ApiOperation({ summary: 'Remove article' })

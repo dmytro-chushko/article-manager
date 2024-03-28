@@ -7,14 +7,12 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import noImage from 'src/assets/no_image.webp';
 import { CustomInput } from 'src/components';
 import { IArticleRetrived } from 'src/types/api';
-import { IEditArticleForm } from 'src/types/form';
+import { useEditableArticleHook } from './EditableArticle.hook';
 
 interface IEditableArticleProps {
   article?: IArticleRetrived;
@@ -22,12 +20,12 @@ interface IEditableArticleProps {
 
 export const EditableArticle = ({ article }: IEditableArticleProps) => {
   const { t } = useTranslation();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  const { control, handleSubmit, watch } = useForm<IEditArticleForm>();
-
-  const handleClickEdit = () => setIsEdit(!isEdit);
-
-  const handleClickAway = () => setIsEdit(false);
+  const { isEdit, control, handleClickAway, handleClickEdit } =
+    useEditableArticleHook({
+      id: article?.id,
+      title: article?.title,
+      description: article?.description,
+    });
 
   if (article) {
     const { title, description, image_url, link, creator } = article;
@@ -39,12 +37,7 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
             <Grid item>
               {isEdit ? (
                 <FormControl fullWidth>
-                  <CustomInput
-                    fullWidth
-                    control={control}
-                    name="title"
-                    defaultValue={title}
-                  />
+                  <CustomInput fullWidth control={control} name="title" />
                 </FormControl>
               ) : (
                 <Typography variant="h6">{title}</Typography>
@@ -67,7 +60,6 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                       rows={5}
                       control={control}
                       name="description"
-                      defaultValue={description}
                     />
                   </FormControl>
                 ) : (
@@ -85,7 +77,7 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
           </Grid>
           <Grid item>
             <Button variant="contained" type="button" onClick={handleClickEdit}>
-              {t('button.edit')}
+              {t(`${isEdit ? 'button.close' : 'button.edit'}`)}
             </Button>
           </Grid>
         </Grid>

@@ -3,38 +3,39 @@ import CloseIcon from '@mui/icons-material/Close';
 import PublishIcon from '@mui/icons-material/Publish';
 import { Box, ClickAwayListener, Fab, FormControl, Grid } from '@mui/material';
 
-import noImage from 'src/assets/no_image.webp';
 import { CustomInput, InputImageUpload } from 'src/components';
 import { useAddArticle } from './AddArticle.hook';
 
 export const AddArticle = () => {
   const {
     isAddFormShown,
+    image,
     control,
     handleSubmitForm,
     handleClickAddButton,
     handleClickAway,
+    handleChangeImage,
   } = useAddArticle();
 
   return (
-    <Grid container direction="column" spacing={2} mb={2}>
-      <Grid item container spacing={2}>
-        <Grid item>
-          <Fab color="primary" onClick={handleClickAddButton}>
-            {isAddFormShown ? <CloseIcon /> : <AddIcon />}
-          </Fab>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <Grid container direction="column" spacing={2} mb={2}>
+        <Grid item container spacing={2}>
+          <Grid item>
+            <Fab color="primary" onClick={handleClickAddButton}>
+              {isAddFormShown ? <CloseIcon /> : <AddIcon />}
+            </Fab>
+          </Grid>
+          {isAddFormShown && (
+            <Grid item>
+              <Fab color="primary" type="submit" onClick={handleSubmitForm}>
+                <PublishIcon />
+              </Fab>
+            </Grid>
+          )}
         </Grid>
         {isAddFormShown && (
           <Grid item>
-            <Fab color="primary" type="submit" onClick={handleSubmitForm}>
-              <PublishIcon />
-            </Fab>
-          </Grid>
-        )}
-      </Grid>
-      {isAddFormShown && (
-        <Grid item>
-          <ClickAwayListener onClickAway={handleClickAway}>
             <Grid
               item
               component="form"
@@ -54,10 +55,13 @@ export const AddArticle = () => {
                     component="img"
                     width={270}
                     alt="no image"
-                    src={noImage}
+                    src={image}
                     mb={2}
                   />
-                  <InputImageUpload fullWidth />
+                  <InputImageUpload
+                    fullWidth
+                    onChangeFile={handleChangeImage}
+                  />
                 </Grid>
                 <Grid item flexGrow={1}>
                   <FormControl fullWidth>
@@ -71,9 +75,9 @@ export const AddArticle = () => {
                 </Grid>
               </Grid>
             </Grid>
-          </ClickAwayListener>
-        </Grid>
-      )}
-    </Grid>
+          </Grid>
+        )}
+      </Grid>
+    </ClickAwayListener>
   );
 };

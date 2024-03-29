@@ -1,11 +1,22 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button, ButtonProps } from '@mui/material';
+import { Button, ButtonProps, InputProps } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
 import { VisuallyHiddenInput } from './InputImageUpload.styled';
+import { ChangeEvent } from 'react';
 
-export const InputImageUpload = (props: ButtonProps) => {
+interface IInputImageUploadProps extends Partial<ButtonProps & InputProps> {
+  onChangeFile: (filePath: string) => void;
+}
+
+export const InputImageUpload = ({
+  onChangeFile,
+  ...props
+}: IInputImageUploadProps) => {
   const { t } = useTranslation();
+
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) =>
+    e.target.files && onChangeFile(URL.createObjectURL(e.target.files[0]));
 
   return (
     <Button
@@ -16,7 +27,7 @@ export const InputImageUpload = (props: ButtonProps) => {
       {...props}
     >
       {t('button.upload')}
-      <VisuallyHiddenInput type="file" />
+      <VisuallyHiddenInput type="file" onChange={handleChangeImage} />
     </Button>
   );
 };

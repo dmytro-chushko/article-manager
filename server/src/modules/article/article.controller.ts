@@ -31,14 +31,14 @@ export class ArticleController {
   @ApiResponse({ status: 201, type: Article })
   @UseGuards(JwtAuthGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image-file'))
+  @UseInterceptors(FileInterceptor('image'))
   create(
     @Body() createArticleDto: CreateArticleDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: 150000 }),
-          new FileTypeValidator({ fileType: '.(png|jpg|jpeg)' }),
+          new FileTypeValidator({ fileType: '.(png|jpg|jpeg|webp)' }),
         ],
         fileIsRequired: false,
       }),
@@ -65,8 +65,22 @@ export class ArticleController {
   @ApiOperation({ summary: 'Update article' })
   @ApiResponse({ status: 200, type: Article })
   @Patch(ArticleRoute.PARAM_ID)
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articleService.update(id, updateArticleDto);
+  @UseInterceptors(FileInterceptor('image'))
+  update(
+    @Param('id') id: string,
+    @Body() updateArticleDto: UpdateArticleDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 150000 }),
+          new FileTypeValidator({ fileType: '.(png|jpg|jpeg|webp)' }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    image: Express.Multer.File,
+  ) {
+    return this.articleService.update(id, updateArticleDto, image);
   }
 
   @ApiOperation({ summary: 'Remove article' })

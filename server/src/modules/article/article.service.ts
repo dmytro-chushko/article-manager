@@ -67,8 +67,22 @@ export class ArticleService {
     return await this.articleRepository.findOneBy({ title });
   }
 
-  async update(id: string, updateArticleDto: UpdateArticleDto) {
+  async update(
+    id: string,
+    updateArticleDto: UpdateArticleDto,
+    image: Express.Multer.File,
+  ) {
     const article = await this.checkExistingAndReturn(id);
+
+    if (image) {
+      const imagePath = await this.fileService.createFile(image, article.id);
+
+      return await this.articleRepository.save({
+        ...article,
+        ...updateArticleDto,
+        image_url: imagePath,
+      });
+    }
 
     return await this.articleRepository.save({
       ...article,

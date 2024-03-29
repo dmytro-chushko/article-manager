@@ -36,7 +36,7 @@ export class Article {
     example:
       'https://www.castanet.net/news/World/478029/1-of-6-former-officers-in-Mississippi-gets-40-years-for-racist-torture-of-2-Black-men',
   })
-  @Column()
+  @Column({ nullable: true })
   link: string;
 
   @ApiProperty({

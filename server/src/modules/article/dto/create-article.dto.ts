@@ -26,7 +26,7 @@ export class CreateArticleDto {
       'https://www.castanet.net/news/World/478029/1-of-6-former-officers-in-Mississippi-gets-40-years-for-racist-torture-of-2-Black-men',
   })
   @IsString({ message: ValidationMessage.IS_STRING })
-  readonly link: string;
+  readonly link?: string;
 
   @ApiProperty({
     description: 'Article description',

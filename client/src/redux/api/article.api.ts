@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   IArticleRetrived,
   ICreateArticle,
+  IPaginatedArticles,
   IUpdateArticle,
 } from 'src/types/api';
 
@@ -15,8 +16,8 @@ export const articleApi = createApi({
   }),
   tagTypes: ['Article'],
   endpoints: builder => ({
-    getAllArticles: builder.query<IArticleRetrived[], void>({
-      query: () => ({ url: '' }),
+    getAllArticles: builder.query<IPaginatedArticles, void>({
+      query: () => ({ url: '?search=the&sort=ASC&page=1&limit=10' }),
       providesTags: ['Article'],
     }),
     createArticle: builder.mutation<IArticleRetrived, ICreateArticle>({

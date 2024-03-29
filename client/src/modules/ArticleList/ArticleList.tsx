@@ -13,7 +13,7 @@ interface IArticleListProps {
 
 export const ArticleList = ({ children }: IArticleListProps) => {
   const setLoaderStatus = useSetLoaderStatus();
-  const { data: articles, isLoading, refetch } = useGetAllArticlesQuery();
+  const { data, isLoading, refetch } = useGetAllArticlesQuery();
 
   const renderChildren = (article: IArticleRetrived) => {
     return Children.map(children, child => {
@@ -40,8 +40,8 @@ export const ArticleList = ({ children }: IArticleListProps) => {
 
   return (
     <Grid component="ul" container rowSpacing={4}>
-      {articles &&
-        articles.map(article => (
+      {data &&
+        data.articles.map(article => (
           <Grid key={article.id} component="li" item xs={12}>
             {renderChildren(article)}
           </Grid>

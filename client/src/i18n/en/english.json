@@ -6,7 +6,9 @@
     "requiredLength": "It must contains {{num}} characters",
     "boardNotExist": "Board not found",
     "incorrectEmail": "Incorrect type of email",
-    "labelExist": "This label already exist"
+    "labelExist": "This label already exist",
+    "fileSize": "The file is too large",
+    "fileType": "Only the following formats are accepted: .jpeg, .jpg, .png, webp"
   },
   "notification": {
     "rejected": "Something went wrong",

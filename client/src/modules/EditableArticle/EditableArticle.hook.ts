@@ -7,6 +7,7 @@ import {
   useUpdateArticleMutation,
 } from 'src/redux/api';
 import { useSetLoaderStatus } from 'src/redux/reducers/loader';
+import { ICreateArticle } from 'src/types/api';
 
 import { IEditArticleForm } from 'src/types/form';
 import { updateArticleSchema } from 'src/utils/validation';
@@ -15,14 +16,17 @@ interface IEditabeArticleHook {
   id?: string;
   title?: string;
   description?: string;
+  imageUrl?: string;
 }
 
 export const useEditableArticleHook = ({
   id,
   title,
   description,
+  imageUrl,
 }: IEditabeArticleHook) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [image, setImage] = useState<string>(imageUrl || '');
   const [updateArticle] = useUpdateArticleMutation();
   const [removeArticle, { isLoading }] = useRemoveArticleMutation();
   const setLoaderStatus = useSetLoaderStatus();
@@ -32,10 +36,12 @@ export const useEditableArticleHook = ({
     defaultValues: {
       title: title || '',
       description: description || '',
+      image: undefined,
     },
   });
   const inputTitle = useDebounce(watch('title'), 500);
   const inputDescription = useDebounce(watch('description'), 500);
+  const inputImage = watch('image');
 
   const handleClickEdit = () => {
     setIsEdit(!isEdit);
@@ -51,14 +57,22 @@ export const useEditableArticleHook = ({
     id && (await removeArticle(id));
   };
 
-  const onSubmit = async (data: IEditArticleForm) => {
-    id && (await updateArticle({ ...data, id }));
+  const handleChangeImage = (filePath: string) => setImage(filePath);
+
+  const onSubmit = async (values: IEditArticleForm) => {
+    const data: ICreateArticle = new FormData();
+
+    data.append('title', values.title);
+    data.append('description', values.description);
+    values.image && data.append('image', values.image);
+    console.log({ data, id });
+    id && (await updateArticle({ data, id }));
   };
 
   useEffect(() => {
     isEdit && handleSubmit(onSubmit)();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputTitle, inputDescription]);
+  }, [inputTitle, inputDescription, inputImage]);
 
   useEffect(() => {
     setLoaderStatus(isLoading);
@@ -68,6 +82,8 @@ export const useEditableArticleHook = ({
   return {
     isEdit,
     control,
+    image,
+    handleChangeImage,
     handleClickEdit,
     handleClickAway,
     handleClickRemove,

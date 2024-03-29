@@ -1,7 +1,10 @@
-export interface ICreateArticle {
-  title: string;
-  link?: string;
-  description: string;
-  image_url?: string;
-  creator: string[];
+type CreateFormFields =
+  | 'title'
+  | 'description'
+  | 'image'
+  | 'link'
+  | 'creator[0]';
+
+export interface ICreateArticle extends FormData {
+  append(name: CreateFormFields, value: string | Blob, fileName?: string): void;
 }

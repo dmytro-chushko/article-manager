@@ -28,10 +28,10 @@ export const articleApi = createApi({
       invalidatesTags: ['Article'],
     }),
     updateArticle: builder.mutation<IArticleRetrived, IUpdateArticle>({
-      query: ({ id, ...body }) => ({
+      query: ({ id, data }) => ({
         url: id,
         method: 'PATCH',
-        body,
+        body: data,
       }),
       invalidatesTags: ['Article'],
     }),

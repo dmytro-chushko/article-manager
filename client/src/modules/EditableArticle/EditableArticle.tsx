@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import noImage from 'src/assets/no_image.webp';
 import { CustomInput, InputImageUpload } from 'src/components';
+import { useImageUrl } from 'src/hooks';
 import { IArticleRetrived } from 'src/types/api';
 import { ArticleControls } from '../AddArticle/components/ArticleControls';
 import { useEditableArticleHook } from './EditableArticle.hook';
@@ -20,8 +21,11 @@ interface IEditableArticleProps {
 
 export const EditableArticle = ({ article }: IEditableArticleProps) => {
   const { t } = useTranslation();
+  const imageUrl = useImageUrl(article?.image_url);
   const {
     isEdit,
+    image,
+    handleChangeImage,
     control,
     handleClickAway,
     handleClickEdit,
@@ -30,6 +34,7 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
     id: article?.id,
     title: article?.title,
     description: article?.description || '',
+    imageUrl,
   });
 
   if (article) {
@@ -54,10 +59,17 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                   component="img"
                   width={270}
                   alt={title}
-                  src={image_url ? image_url : noImage}
+                  src={image_url ? image : noImage}
                   mb={isEdit ? 2 : 0}
                 />
-                {isEdit && <InputImageUpload fullWidth />}
+                {isEdit && (
+                  <InputImageUpload
+                    fullWidth
+                    onChangeFile={handleChangeImage}
+                    control={control}
+                    name="image"
+                  />
+                )}
               </Grid>
               <Grid item flexGrow={1}>
                 {isEdit ? (

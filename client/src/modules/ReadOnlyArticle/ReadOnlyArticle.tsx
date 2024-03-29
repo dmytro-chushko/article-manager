@@ -2,6 +2,7 @@ import { Box, Grid, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import noImage from 'src/assets/no_image.webp';
+import { useImageUrl } from 'src/hooks';
 import { IArticleRetrived } from 'src/types/api';
 
 interface IReadOnlyArticleProps {
@@ -10,6 +11,7 @@ interface IReadOnlyArticleProps {
 
 export const ReadOnlyArticle = ({ article }: IReadOnlyArticleProps) => {
   const { t } = useTranslation();
+  const imageUrl = useImageUrl(article?.image_url);
 
   if (article) {
     const { title, description, image_url, link, creator } = article;
@@ -25,7 +27,7 @@ export const ReadOnlyArticle = ({ article }: IReadOnlyArticleProps) => {
               component="img"
               width={270}
               alt={title}
-              src={image_url ? image_url : noImage}
+              src={image_url ? imageUrl : noImage}
             />
           </Grid>
           <Grid item>

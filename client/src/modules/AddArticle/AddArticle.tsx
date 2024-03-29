@@ -61,6 +61,8 @@ export const AddArticle = () => {
                   <InputImageUpload
                     fullWidth
                     onChangeFile={handleChangeImage}
+                    control={control}
+                    name="image"
                   />
                 </Grid>
                 <Grid item flexGrow={1}>

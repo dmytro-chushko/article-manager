@@ -9,6 +9,7 @@ import {
   ParseFilePipe,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -20,6 +21,7 @@ import { ArticleRoute } from 'src/utils/consts/route';
 import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { QueryParamsDto } from './dto/query-params.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
 
@@ -51,8 +53,10 @@ export class ArticleController {
   @ApiOperation({ summary: 'Get all existing articles' })
   @ApiResponse({ status: 200, type: [Article] })
   @Get()
-  findAll() {
-    return this.articleService.findAll();
+  findAll(@Query() query: QueryParamsDto) {
+    console.log(query);
+
+    return this.articleService.findAll(query);
   }
 
   @ApiOperation({ summary: 'Get article by id' })

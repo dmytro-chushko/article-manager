@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, ILike, Repository } from 'typeorm';
 
+import { IPaginatedArticles } from 'src/types';
 import { ExceptionMessage } from 'src/utils/consts/ExceptionMessage';
 import { FilesService } from '../files/files.service';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { QueryParamsDto } from './dto/query-params.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Article } from './entities/article.entity';
 
@@ -51,8 +53,34 @@ export class ArticleService {
     return await this.articleRepository.save(newArticle);
   }
 
-  async findAll(): Promise<Article[]> {
-    return await this.articleRepository.find();
+  async findAll(queryParams: QueryParamsDto): Promise<IPaginatedArticles> {
+    const options: FindManyOptions<Article> = {
+      order: { updatedAt: 'DESC' },
+    };
+
+    if (queryParams.search) {
+      options.where = { title: ILike(`%${queryParams.search}%`) };
+    }
+
+    if (queryParams.page && queryParams.limit) {
+      const { page, limit } = queryParams;
+
+      options.skip = +limit * (+page - 1);
+      options.take = +limit;
+    }
+
+    if (queryParams.sort) {
+      options.order = { updatedAt: queryParams.sort };
+    }
+
+    console.log(options);
+    const [articles, total] =
+      await this.articleRepository.findAndCount(options);
+    const totalPages = queryParams.limit
+      ? Math.ceil(total / queryParams.limit)
+      : 1;
+
+    return { articles, total, totalPages };
   }
 
   async findOneById(id: string): Promise<Article | null> {

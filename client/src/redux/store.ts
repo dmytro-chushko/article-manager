@@ -12,11 +12,13 @@ import {
 import { loader } from './reducers/loader';
 import { errorHandler } from './middlewares/erorr-handler.middleware';
 import { articleApi, authApi } from './api';
-import { persistedThemeReducer } from './persist-configs';
+import { persistedIsLoggedReducer } from './persist-configs';
+import { searchParams } from './reducers/searchParams';
 
 export const store = configureStore({
   reducer: {
-    isLogged: persistedThemeReducer,
+    isLogged: persistedIsLoggedReducer,
+    searchParams: searchParams.reducer,
     loader: loader.reducer,
     [articleApi.reducerPath]: articleApi.reducer,
     [authApi.reducerPath]: authApi.reducer,

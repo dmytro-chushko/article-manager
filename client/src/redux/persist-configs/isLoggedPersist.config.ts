@@ -7,7 +7,7 @@ export const isLoggedPersistConfig = {
   storage,
 };
 
-export const persistedThemeReducer = persistReducer(
+export const persistedIsLoggedReducer = persistReducer(
   isLoggedPersistConfig,
   isLogged.reducer,
 );

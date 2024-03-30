@@ -16,8 +16,8 @@ export const articleApi = createApi({
   }),
   tagTypes: ['Article'],
   endpoints: builder => ({
-    getAllArticles: builder.query<IPaginatedArticles, void>({
-      query: () => ({ url: '?search=the&sort=ASC&page=1&limit=10' }),
+    getAllArticles: builder.query<IPaginatedArticles, string>({
+      query: queryParams => ({ url: `?${queryParams}` }),
       providesTags: ['Article'],
     }),
     createArticle: builder.mutation<IArticleRetrived, ICreateArticle>({

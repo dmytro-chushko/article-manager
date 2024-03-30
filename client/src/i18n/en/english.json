@@ -16,7 +16,7 @@
   },
   "placeholder": {
     "textLabelInput": "Input new name",
-    "searchInput": "Input task name",
+    "searchInput": "Input search query",
     "colorSelect": "Color label",
     "textSelect": "Text label"
   },
@@ -27,7 +27,8 @@
     "gender": "Gender",
     "genderMale": "Male",
     "genderFemale": "Female",
-    "genderOther": "Other"
+    "genderOther": "Other",
+    "sort": "Sort by date"
   },
   "button": {
     "add": "Add",

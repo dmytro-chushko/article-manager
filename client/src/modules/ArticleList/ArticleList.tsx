@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { Children, ReactElement, cloneElement, useEffect } from 'react';
 import { useGetAllArticlesQuery } from 'src/redux/api/article.api';
 import { useSetLoaderStatus } from 'src/redux/reducers/loader';
+import { useGetSearch, useGetSort } from 'src/redux/reducers/searchParams';
 
 import { IArticleRetrived } from 'src/types/api';
 import { ArticleEvent } from 'src/utils/consts';
@@ -13,7 +14,10 @@ interface IArticleListProps {
 
 export const ArticleList = ({ children }: IArticleListProps) => {
   const setLoaderStatus = useSetLoaderStatus();
-  const { data, isLoading, refetch } = useGetAllArticlesQuery();
+  const search = useGetSearch();
+  const sort = useGetSort();
+  const queryParams = `${search && `search=${search}&`}sort=${sort}`;
+  const { data, isLoading, refetch } = useGetAllArticlesQuery(queryParams);
 
   const renderChildren = (article: IArticleRetrived) => {
     return Children.map(children, child => {

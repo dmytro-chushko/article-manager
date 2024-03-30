@@ -46,6 +46,7 @@
   "employee": "Employee",
   "footer": "Footer",
   "creator": "Creator",
+  "notFound": "There are no articles fit your query",
   "link": {
     "goToArticle": "Go to article",
     "signIn": "Sign In"

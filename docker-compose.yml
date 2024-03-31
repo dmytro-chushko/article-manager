@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  server:
+    build: ./server
+    container_name: server
+    ports:
+      - '8090:8090'
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    restart: always
+  client:
+    build: ./client
+    container_name: client
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres:14.7-alpine
+    env_file:
+      - ./server/.development.env
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+volumes:
+  pgdata:

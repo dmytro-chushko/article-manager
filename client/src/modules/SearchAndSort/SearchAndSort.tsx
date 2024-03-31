@@ -1,5 +1,11 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { FormControlLabel, Grid, InputAdornment, Radio } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputAdornment,
+  Radio,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import { CustomInput } from 'src/components';
@@ -7,25 +13,34 @@ import { CustomRadioGroup } from 'src/components/CustomRadioGroup';
 import { SortParams } from 'src/utils/consts';
 import { useSearchAndSort } from './SearchAndSort.hook';
 
+import { searchFieldStyles } from './SearchAndSort.styled';
+
 export const SearchAndSort = () => {
   const { t } = useTranslation();
   const { control } = useSearchAndSort();
 
   return (
-    <Grid component="form" container columnSpacing={4}>
+    <Grid
+      component="form"
+      container
+      columnSpacing={{ sm: 4 }}
+      direction={{ xs: 'column', sm: 'row' }}
+    >
       <Grid item>
-        <CustomInput
-          type="search"
-          control={control}
-          name="search"
-          placeholder={t('placeholder.searchInput')}
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          sx={{ width: '400px' }}
-        />
+        <FormControl fullWidth>
+          <CustomInput
+            type="search"
+            control={control}
+            name="search"
+            placeholder={t('placeholder.searchInput')}
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            }
+            sx={searchFieldStyles}
+          />
+        </FormControl>
       </Grid>
 
       <Grid item>

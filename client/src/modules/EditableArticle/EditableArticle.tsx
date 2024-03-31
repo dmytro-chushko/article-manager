@@ -42,7 +42,12 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
 
     return (
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Grid container spacing={2} flexWrap="nowrap">
+        <Grid
+          container
+          spacing={2}
+          flexWrap="nowrap"
+          direction={{ xs: 'column', md: 'row' }}
+        >
           <Grid item component="form" container direction="column" spacing={2}>
             <Grid item>
               {isEdit ? (
@@ -53,7 +58,13 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                 <Typography variant="h6">{title}</Typography>
               )}
             </Grid>
-            <Grid container spacing={2} item flexWrap="nowrap">
+            <Grid
+              container
+              direction={{ xs: 'column', md: 'row' }}
+              spacing={2}
+              item
+              flexWrap="nowrap"
+            >
               <Grid item xs="auto">
                 <Box
                   component="img"
@@ -61,6 +72,7 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                   alt={title}
                   src={image_url ? image : noImage}
                   mb={isEdit ? 2 : 0}
+                  mx="auto"
                 />
                 {isEdit && (
                   <InputImageUpload
@@ -89,8 +101,8 @@ export const EditableArticle = ({ article }: IEditableArticleProps) => {
                     {[
                       t('creator'),
                       ': ',
-                      ...creator.map(item => (
-                        <Typography key={item} variant="caption" mr={2}>
+                      ...creator.map((item, i) => (
+                        <Typography key={i} variant="caption" mr={2}>
                           {item}
                         </Typography>
                       )),

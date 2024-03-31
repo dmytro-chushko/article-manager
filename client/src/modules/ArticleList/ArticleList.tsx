@@ -75,6 +75,7 @@ export const ArticleList = ({ children }: IArticleListProps) => {
             count={data.totalPages}
             page={page}
             onChange={handleChangePage}
+            size="small"
             variant="outlined"
             shape="rounded"
             color="primary"
@@ -82,17 +83,18 @@ export const ArticleList = ({ children }: IArticleListProps) => {
         </Grid>
       )}
       <Grid component="ul" item container rowSpacing={4}>
-        {data && data.articles.length > 0 ? (
-          data.articles.map(article => (
-            <Grid key={article.id} component="li" item xs={12}>
-              {renderChildren(article)}
+        {data &&
+          (data.articles.length > 0 ? (
+            data.articles.map(article => (
+              <Grid key={article.id} component="li" item xs={12}>
+                {renderChildren(article)}
+              </Grid>
+            ))
+          ) : (
+            <Grid item>
+              <Typography variant="h3">{t('notFound')}</Typography>
             </Grid>
-          ))
-        ) : (
-          <Grid item>
-            <Typography variant="h3">{t('notFound')}</Typography>
-          </Grid>
-        )}
+          ))}
       </Grid>
       {data && data.articles.length > 0 && (
         <Grid item>
@@ -100,6 +102,7 @@ export const ArticleList = ({ children }: IArticleListProps) => {
             count={data.totalPages}
             page={page}
             onChange={handleChangePage}
+            size="small"
             variant="outlined"
             shape="rounded"
             color="primary"

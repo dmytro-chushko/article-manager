@@ -20,7 +20,12 @@ export const AddArticle = () => {
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Grid container direction="column" spacing={2} mb={2}>
-        <Grid item container spacing={2}>
+        <Grid
+          item
+          container
+          spacing={2}
+          justifyContent={{ xs: 'center', sm: 'start' }}
+        >
           <Grid item>
             <Fab color="primary" onClick={handleClickAddButton}>
               {isAddFormShown ? <CloseIcon /> : <AddIcon />}
@@ -49,7 +54,13 @@ export const AddArticle = () => {
                   <CustomInput fullWidth control={control} name="title" />
                 </FormControl>
               </Grid>
-              <Grid container spacing={2} item flexWrap="nowrap">
+              <Grid
+                container
+                direction={{ xs: 'column', md: 'row' }}
+                spacing={2}
+                item
+                flexWrap="nowrap"
+              >
                 <Grid item xs="auto">
                   <Box
                     component="img"
@@ -57,6 +68,7 @@ export const AddArticle = () => {
                     alt="no image"
                     src={image}
                     mb={2}
+                    mx="auto"
                   />
                   <InputImageUpload
                     fullWidth

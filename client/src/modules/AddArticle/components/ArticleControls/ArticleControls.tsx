@@ -17,20 +17,25 @@ export const ArticleControls = ({
   const { t } = useTranslation();
 
   return (
-    <Grid container direction="column" spacing={2} alignItems="stretch">
-      <Grid item xs={12}>
+    <Grid
+      container
+      direction={{ xs: 'row', md: 'column' }}
+      spacing={2}
+      alignItems="stretch"
+    >
+      <Grid item xs={6} sm={3} md={12}>
         <Button
           variant="contained"
           type="button"
           onClick={onEditArticle}
           startIcon={<EditIcon />}
           fullWidth
-          sx={{ justifyContent: 'start' }}
+          sx={{ justifyContent: { lg: 'start' } }}
         >
           {t(`${isEdit ? 'button.close' : 'button.edit'}`)}
         </Button>
       </Grid>
-      <Grid item>
+      <Grid item xs={6} sm={3} md={12}>
         <Button
           variant="contained"
           color="secondary"

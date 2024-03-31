@@ -32,12 +32,19 @@ export const ReadOnlyArticle = ({ article }: IReadOnlyArticleProps) => {
           </Grid>
           <Grid item>
             <Typography variant="body2">{description}</Typography>
-            {creator &&
-              creator.map(item => (
-                <Typography key={item} variant="caption" mr={2}>
-                  {item}
-                </Typography>
-              ))}
+            {creator.length > 0 && (
+              <Typography variant="caption">
+                {[
+                  t('creator'),
+                  ': ',
+                  ...creator.map((item, i) => (
+                    <Typography key={i} variant="caption" mr={2}>
+                      {item}
+                    </Typography>
+                  )),
+                ]}
+              </Typography>
+            )}
             <Link href={link}>{t('link.goToArticle')}</Link>
           </Grid>
         </Grid>

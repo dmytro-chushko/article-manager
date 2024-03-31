@@ -37,7 +37,7 @@ export const AdminAuth = () => {
   }, [isLoading]);
 
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid container spacing={{ xs: 1, sm: 2 }} alignItems="center">
       {isLogged && (
         <Grid item>
           <Typography variant="subtitle2" color="primary">

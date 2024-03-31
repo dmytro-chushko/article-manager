@@ -55,7 +55,7 @@ export class ArticleService {
 
   async findAll(queryParams: QueryParamsDto): Promise<IPaginatedArticles> {
     const options: FindManyOptions<Article> = {
-      order: { updatedAt: 'DESC' },
+      order: { createdAt: 'DESC' },
     };
 
     if (queryParams.search) {
@@ -70,10 +70,9 @@ export class ArticleService {
     }
 
     if (queryParams.sort) {
-      options.order = { updatedAt: queryParams.sort };
+      options.order = { createdAt: queryParams.sort };
     }
 
-    console.log(options);
     const [articles, total] =
       await this.articleRepository.findAndCount(options);
     const totalPages = queryParams.limit

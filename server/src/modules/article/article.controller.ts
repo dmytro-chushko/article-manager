@@ -54,8 +54,6 @@ export class ArticleController {
   @ApiResponse({ status: 200, type: [Article] })
   @Get()
   findAll(@Query() query: QueryParamsDto) {
-    console.log(query);
-
     return this.articleService.findAll(query);
   }
 

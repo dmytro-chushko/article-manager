@@ -23,11 +23,13 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    this.registerNewAdmin({ email: 'admin@domain.com', password: '123456' });
+  }
 
   async registration(
     dto: CreateUserDto,
-    response: Response,
+    response?: Response,
   ): Promise<IUserResponse> {
     const candidate = await this.userService.findOneByEmail(dto.email);
     if (candidate) {
@@ -40,9 +42,10 @@ export class AuthService {
       password: hashPassword,
     });
 
-    response.cookie(COOKIE_KEY, this.generateToken(newUser), {
-      httpOnly: true,
-    });
+    response &&
+      response.cookie(COOKIE_KEY, this.generateToken(newUser), {
+        httpOnly: true,
+      });
 
     return { id: newUser.id, email: newUser.email };
   }
@@ -79,5 +82,12 @@ export class AuthService {
 
   private generateToken(user: User): string {
     return this.jwtService.sign({ id: user.id, email: user.email });
+  }
+
+  private async registerNewAdmin(dto: CreateUserDto): Promise<void> {
+    const candidate = await this.userService.findOneByEmail(dto.email);
+    if (candidate) return;
+
+    await this.registration(dto);
   }
 }

@@ -3,14 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ArticleParserModule } from './modules/article-parser/article-parser.module';
 import { ArticleModule } from './modules/article/article.module';
 import { Article } from './modules/article/entities/article.entity';
-import { FilesModule } from './modules/files/files.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { UserModule } from './modules/user/user.module';
-import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { FilesModule } from './modules/files/files.module';
+import { User } from './modules/user/entities/user.entity';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -25,8 +25,8 @@ import { AuthModule } from './modules/auth/auth.module';
       host: process.env.POSTGRES_HOST,
       port: Number(process.env.POSTGRES_PORT),
       username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASS,
-      database: process.env.POSTGRES_NAME,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
       entities: [Article, User],
       synchronize: true,
     }),

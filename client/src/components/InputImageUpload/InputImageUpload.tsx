@@ -26,11 +26,10 @@ export const InputImageUpload = <T extends FieldValues>({
   } = useController({ name, control });
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files && e.target.files[0]);
     e.target.files && field.onChange(e.target.files[0]);
     e.target.files && onChangeFile(URL.createObjectURL(e.target.files[0]));
   };
-  console.log(invalid, error, field.value);
+
   return (
     <>
       <Button

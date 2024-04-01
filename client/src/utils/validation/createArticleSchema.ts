@@ -18,7 +18,6 @@ export const createArticleSchema = (): yup.ObjectSchema<ICreateArticleForm> => {
         'fileSize',
         JSON.stringify(['validation.fileSize']),
         (value?: File) => {
-          console.log(value && value.size);
           return (value && value.size <= 2000000) || value === undefined;
         },
       )

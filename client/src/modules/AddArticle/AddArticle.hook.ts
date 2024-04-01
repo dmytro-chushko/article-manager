@@ -41,7 +41,6 @@ export const useAddArticle = () => {
   const handleChangeImage = (filePath: string) => setImage(filePath);
 
   const handleSubmitForm = handleSubmit(async (values: ICreateArticleForm) => {
-    console.log(values);
     const data: ICreateArticle = new FormData();
 
     data.append('title', values.title);

@@ -51,7 +51,7 @@ $ docker-compose up
 $ npm run start:dev
 ```
 
-5. 4. Being in the `./client` directory run the front-end application from the command line:
+5. Being in the `./client` directory run the front-end application from the command line:
 
 ```bash
 $ npm run dev

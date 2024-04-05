@@ -1,5 +1,7 @@
 # Article-manager. Article menegment project
 
+Article managment project. Articles are parsing every minute from RSS feed. Articles are managed (CRUD) in the admin panel, accsess to the panel is closed by authorization. There is also a public route that displays a list of articles with pagination/sorting/search
+
 ## Installation:
 
 ### Clone the repo from comand line:

@@ -106,13 +106,13 @@ TOKEN_EXP_IN=24h
 
 ## Articles parsing
 
-Articles are parsing from [NEWSDATA.IO](https://newsdata.io/) - [documentation](https://newsdata.io/documentation).</br>
+Articles are parsed from [NEWSDATA.IO](https://newsdata.io/) - [documentation](https://newsdata.io/documentation).</br>
 For retrieving articles you need API KEY. You may use these:
 
 > **pub_404100d3a7c802dc95e02e3221e8e5c1e4dce**
 
 Or create your own. You should previously sign up on [NEWSDATA.IO](https://newsdata.io/register) for this.</br>
-Articles are parsing every `minute` and storing to the data base if they do not duplicate with already saved ones
+Articles are parsed every `minute` and stored to the data base if they do not duplicate with already saved ones
 
 > **_Free account allowed to retrieve articles only 200 times per day_**
 

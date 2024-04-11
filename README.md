@@ -87,6 +87,7 @@ Create `.development.env` file in the `./server` directory and set the next vari
 - NEWS_DATA_API_KE Y= newsdata.io api key
 - JWT_SECRET_KEY = secret key for JWT service
 - TOKEN_EXP_IN = lifetime access token expiration 24h
+- CLIENT_HOST = client host
 
 Or you can use these ones if are using docker-compose running approach:
 
@@ -102,6 +103,7 @@ NEWS_DATA_API_BASE_URL=https://newsdata.io/api/1
 NEWS_DATA_API_KEY=pub_404100d3a7c802dc95e02e3221e8e5c1e4dce
 JWT_SECRET_KEY=jfkd;lsa5908323-iop[e]7645
 TOKEN_EXP_IN=24h
+CLIENT_HOST=http://localhost:5173
 ```
 
 ## Articles parsing

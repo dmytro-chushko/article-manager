@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
@@ -10,8 +11,9 @@ import { CustomValidationPipe } from './pipe/custom-validation.pipe';
 export let app: INestApplication;
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 8090;
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const PORT = configService.get('PORT') || 8090;
 
   const { httpAdapter } = app.get(HttpAdapterHost);
 
@@ -25,7 +27,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('/api/docs', app, document);
   app.enableCors({
-    origin: process.env.CLIENT_HOST,
+    origin: configService.get('CLIENT_HOST'),
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'HEADER', 'PATCH', 'OPTIONS'],
   });

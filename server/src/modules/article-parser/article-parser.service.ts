@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 
 import { Cron } from '@nestjs/schedule';
@@ -15,6 +16,7 @@ export class ArticleParserService {
   constructor(
     private readonly articleService: ArticleService,
     private readonly articleParserGateway: ArticleParserGateway,
+    private readonly configService: ConfigService,
   ) {
     this.axiosClient = this.createAxiosClient();
     this.parseArticle();
@@ -49,7 +51,7 @@ export class ArticleParserService {
       NewsDataRoute.NEWS,
       {
         params: {
-          apikey: process.env.NEWS_DATA_API_KEY,
+          apikey: this.configService.get('NEWS_DATA_API_KEY'),
           language: NewsDataLang.EN,
         },
       },
@@ -62,7 +64,7 @@ export class ArticleParserService {
 
   private createAxiosClient(): AxiosInstance {
     const axiosClient = axios.create({
-      baseURL: process.env.NEWS_DATA_API_BASE_URL,
+      baseURL: this.configService.get('NEWS_DATA_API_BASE_URL'),
       headers: { 'Content-Type': 'application/json' },
     });
 

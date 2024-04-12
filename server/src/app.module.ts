@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 
@@ -19,6 +20,7 @@ import { UserModule } from './modules/user/user.module';
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'article-images'),
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',

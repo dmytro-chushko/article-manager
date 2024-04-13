@@ -42,8 +42,6 @@ export class ArticleParserService {
     if (parsedArticles.some(article => article)) {
       this.articleParserGateway.server.emit(ArticleEvent.ARTICLE_UPDATED);
     }
-
-    console.log(parsedArticles);
   }
 
   async fetchArticles<T>(): Promise<IResponseNewsData<T>> {
@@ -56,8 +54,6 @@ export class ArticleParserService {
         },
       },
     );
-
-    console.log(data.results.length);
 
     return data;
   }

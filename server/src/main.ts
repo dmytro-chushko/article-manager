@@ -3,7 +3,7 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './exception/all.exception';
 import { CustomValidationPipe } from './pipe/custom-validation.pipe';
@@ -11,6 +11,7 @@ import { CustomValidationPipe } from './pipe/custom-validation.pipe';
 export let app: INestApplication;
 
 async function bootstrap() {
+  const logger = new Logger();
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const PORT = configService.get('PORT') || 8090;
@@ -35,6 +36,6 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter({ httpAdapter }));
   app.useGlobalPipes(new CustomValidationPipe());
 
-  await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  await app.listen(PORT, () => logger.log(`Server started on port ${PORT}`));
 }
 bootstrap();

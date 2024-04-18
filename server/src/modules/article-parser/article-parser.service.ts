@@ -1,17 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import axios, { AxiosError, AxiosInstance } from 'axios';
-
 import { Cron } from '@nestjs/schedule';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { ValidationError, validate } from 'class-validator';
+
 import { INewsDataArticle, IResponseNewsData } from 'src/types';
 import { NewsDataLang, NewsDataRoute } from 'src/utils/consts';
 import { ArticleEvent } from 'src/utils/consts/ArticleEvent';
 import { ArticleService } from '../article/article.service';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { ArticleParserGateway } from './article-parser.gateway';
+import { ParsedArticleDto } from './dto/parsed-article.dto';
 
 @Injectable()
 export class ArticleParserService {
-  axiosClient: AxiosInstance;
+  private readonly axiosClient: AxiosInstance;
+  private readonly logger = new Logger(ArticleParserService.name);
 
   constructor(
     private readonly articleService: ArticleService,
@@ -25,16 +29,32 @@ export class ArticleParserService {
   @Cron('0 */1 * * * *')
   async parseArticle() {
     const articles = await this.fetchArticles<INewsDataArticle>();
+    if (!Array.isArray(articles.results)) {
+      this.logger.log('Retrived article list is not array');
+
+      return;
+    }
+
+    this.logger.log(`Retrived articles - ${articles.results.length}`);
+
+    const validatedArticles = await this.validateRetrivedArticles(
+      articles.results,
+    );
+
+    this.logger.log(`Validated articles - ${validatedArticles.length}`);
+
+    if (validatedArticles.length === 0) {
+      this.logger.log('Validated article array is empty');
+
+      return;
+    }
+
     const parsedArticles = await Promise.all(
-      articles.results.map(
-        async ({ article_id, title, link, description, image_url, creator }) =>
+      validatedArticles.map(
+        async article =>
           await this.articleService.createByParser({
-            article_id,
-            title,
-            link,
-            description,
-            image_url,
-            creator: creator ? creator : [],
+            ...article,
+            creator: article.creator ? article.creator : [],
           }),
       ),
     );
@@ -42,6 +62,10 @@ export class ArticleParserService {
     if (parsedArticles.some(article => article)) {
       this.articleParserGateway.server.emit(ArticleEvent.ARTICLE_UPDATED);
     }
+
+    this.logger.log(
+      `Parsed articles - ${parsedArticles.filter(item => item).length}`,
+    );
   }
 
   async fetchArticles<T>(): Promise<IResponseNewsData<T>> {
@@ -74,5 +98,52 @@ export class ArticleParserService {
     );
 
     return axiosClient;
+  }
+
+  private async validateRetrivedArticles(
+    articles: INewsDataArticle[],
+  ): Promise<CreateArticleDto[]> {
+    return (
+      await Promise.all(
+        articles.map(
+          async ({
+            article_id,
+            title,
+            link,
+            description,
+            image_url,
+            creator,
+          }: ParsedArticleDto) => {
+            const article = new ParsedArticleDto();
+
+            article.article_id = article_id;
+            article.title = title;
+            article.link = link;
+            article.description = description;
+            article.image_url = image_url;
+            article.creator = creator;
+
+            const errors = await validate(article);
+            if (errors.length > 0) {
+              errors.map(error =>
+                this.logger.warn(
+                  `Article ${article_id} saving is failed, field ${this.hendleValidationError(error)}`,
+                ),
+              );
+
+              return;
+            }
+
+            return article;
+          },
+        ),
+      )
+    ).filter(article => article);
+  }
+
+  private hendleValidationError(error: ValidationError): string {
+    const constraints = Object.values(error.constraints).join(', ');
+
+    return `${error.property}: ${constraints}`;
   }
 }

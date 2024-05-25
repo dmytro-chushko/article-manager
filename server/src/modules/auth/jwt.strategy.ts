@@ -7,16 +7,20 @@ import { IJwtPayload } from 'src/types';
 import { ExceptionMessage } from 'src/utils/consts';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly userService: UserService) {
+  constructor(
+    private readonly userService: UserService,
+    private configService: ConfigService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => req.cookies['access-token'],
       ]),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET_KEY,
+      secretOrKey: configService.get('JWT_SECRET_KEY'),
     });
   }
 

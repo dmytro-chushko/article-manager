@@ -22,7 +22,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {
-    this.registerNewAdmin({ email: 'admin@domain.com', password: '123456' });
+    // this.registerNewAdmin({ email: 'admin@domain.com', password: '123456' });
   }
 
   async registration(
@@ -43,6 +43,8 @@ export class AuthService {
     response &&
       response.cookie(COOKIE_KEY, this.generateToken(newUser), {
         httpOnly: true,
+        secure: true,
+        sameSite: 'none',
       });
 
     return { id: newUser.id, email: newUser.email };

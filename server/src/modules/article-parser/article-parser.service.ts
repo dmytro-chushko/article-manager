@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Cron } from '@nestjs/schedule';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { ValidationError, validate } from 'class-validator';
 
@@ -22,11 +21,11 @@ export class ArticleParserService {
     private readonly articleParserGateway: ArticleParserGateway,
     private readonly configService: ConfigService,
   ) {
-    this.axiosClient = this.createAxiosClient();
-    this.parseArticle();
+    // this.axiosClient = this.createAxiosClient();
+    // this.parseArticle();
   }
 
-  @Cron('0 */1 * * * *')
+  // @Cron('0 */1 * * * *')
   async parseArticle() {
     const articles = await this.fetchArticles<INewsDataArticle>();
     if (!Array.isArray(articles.results)) {
